@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%= title %> </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../user/stylesheets/loginStyle.css">
+    <link rel="stylesheet" type="text/css" href="../../user/stylesheets/register.css">
+    <link rel="stylesheet"type="text/css"href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" type="text/javascript">      
+    </script>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Super Market</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Admin Panel</a>
+            </li>
+            <li class="nav-item">
+              <a class="dropdown-item" href="">
+                <form action="/logout" method="POST">
+                  <button type="submit" style="font-style: italic;" class="btn">Logout</button>
+              </form>
+            </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</header>
+<section>
+<div class="container-lg">
+  <div class="table-responsive">
+      <div class="table-wrapper" style="border-radius: 10px;">
+          <div class="table-title" >
+              <div class="row">
+                  <div class="col-sm-8"><h2>Employee <b>Details</b></h2></div>
+                  <div class="col-sm-4">
+                      <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a href="/admin/addUser">Add New User</a></button>
+                  </div>
+              </div>
+          </div>
+          <table id="userTable" class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>SI No</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Mobile Number</th>
+                      <th>Gender</th>
+                      <th>Email</th>
+                      <th>Job Category</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% 
+                  let count=1;
+                  userDetails.forEach((employee)=>{ %>
+                  <tr>
+                      <td><%= count %></td>
+                      <td><%= employee.firstName %></td>
+                      <td><%= employee.lastName %></td>
+                      <td><%= employee.mobNumber %></td>
+                      <td><%= employee.gender %></td>
+                      <td><%= employee.email %></td>
+                      <td><%= employee.category %></td>
+                      <td>
+                          <!-- <form action="/admin/userEdit" method="POST">
+                            <input type="hidden" value="<%= employee._id %>" name="empId">
+                          <button class="btn btn-warning m-2" >Edit</button>
+                          </form> -->
+                          <a href="/admin/userEdit/<%= employee._id %>" class="btn btn-warning m-2"> Edit</a>
+                          <form action="/admin/userDelete/<%= employee._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger m-2" onclick="return confirm('Are you sure want to delete <%= employee.firstName %>')" >Delete</button>
+                          </form>
+                      </td>
+                  </tr>
+                  <% count++ }); %>      
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div> 
+</section>
+<script
+type="text/javascript"
+charset="utf8"
+src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"
+></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+<script>
+$(function() {
+$("#userTable").dataTable();
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  </body>
+</html>
